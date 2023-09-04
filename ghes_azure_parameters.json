@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accountPrefix": {
+      "value": "tdupoiron"
+    },
+    "adminUsername": {
+      "value": "tdupoiron"
+    },
+    "vmSize": {
+      "value": "Standard_D2s_v3"
+    },
+    "storageDiskSizeGB": {
+      "value": "512"
+    },
+    "authenticationType": {
+      "value": "sshPublicKey"
+    },
+    "adminPasswordOrKey": {
+      "value": "tdup_Admin@2023"
+    },
+    "location": {
+      "value": "[resourceGroup().location]"
+    }
+  }
+}
