@@ -18,6 +18,7 @@ data_volume_size = 150
 ```
 
 Available GHES versions can be found [here](https://enterprise.github.com/releases)
+
 Technical prerequisites can be found [here](https://docs.github.com/en/enterprise-server@3.10/admin/installation/setting-up-a-github-enterprise-server-instance/installing-github-enterprise-server-on-vmware#minimum-requirements)
 
 * Run Terraform:
@@ -30,8 +31,11 @@ terraform init
 terraform apply -auto-approve
 ```
 
-* Get the public IP address of the instance:
+* Read public ip and useful information from the output:
 
 ```hcl
-terraform output ghes_public_ip
+ghes_homepage = "https://35.180.134.22"
+ghes_public_ip = "35.180.134.22"
+ghes_setup_endpoint = "https://35.180.134.22:8443/setup"
+ghes_ssh_command = "ssh -i ~/.ssh/tdupoiron-keypair.pem -p 122 admin@35.180.134.22"
 ```
