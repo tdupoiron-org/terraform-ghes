@@ -35,7 +35,6 @@ terraform apply -auto-approve
 
 ```hcl
 ghes_homepage = "https://35.180.134.22"
-ghes_public_ip = "35.180.134.22"
 ghes_setup_endpoint = "https://35.180.134.22:8443/setup"
-ghes_ssh_command = "ssh -i ~/.ssh/tdupoiron-keypair.pem -p 122 admin@35.180.134.22"
+ghes_ssh_command = "ssh -i ~/.ssh/mykeypair.pem -p 122 admin@35.180.134.22"
 ```
