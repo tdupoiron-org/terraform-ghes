@@ -26,7 +26,7 @@ resource "azurerm_resource_group_template_deployment" "ghes" {
       "value": "password"
     },
     "adminPasswordOrKey": {
-      "value": "tdup_Admin@2023"
+      "value": "tdup_Admin1234"
     },
     "location": {
       "value": "northeurope"
@@ -34,3 +34,8 @@ resource "azurerm_resource_group_template_deployment" "ghes" {
   })
 
 }
+
+# output "public_ip_address" {
+#   description = "The public IP address of the resource."
+#   value       = azurerm_resource_group_template_deployment.ghes.outputs["publicIpAddress"]
+# }

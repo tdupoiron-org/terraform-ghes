@@ -1,0 +1,2 @@
+terraform-provider-azurerm_* filter=lfs diff=lfs merge=lfs -text
+terraform-provider-aws_* filter=lfs diff=lfs merge=lfs -text
