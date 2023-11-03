@@ -8,13 +8,17 @@ Spin up a GitHub Enterprise Server (GHES) instance in AWS using Terraform.
 
 ```hcl
 owner = "myorg"
-aws_region = "us-east-1"
-aws_availability_zone = "us-east-1a"
-aws_instance_type = "m5.xlarge"
-key_pair_name = "mykey"
-ghes_version = "3.0.0"
-data_volume_size = 100
+aws_region = "eu-west-3"
+aws_availability_zone = "eu-west-3a"
+aws_instance_type = "m5.4xlarge"
+key_pair_name = "mykeypair"
+ghes_version = "3.8.11"
+root_volume_size = 200
+data_volume_size = 150
 ```
+
+Available GHES versions can be found [here](https://enterprise.github.com/releases)
+Technical prerequisites can be found [here](https://docs.github.com/en/enterprise-server@3.10/admin/installation/setting-up-a-github-enterprise-server-instance/installing-github-enterprise-server-on-vmware#minimum-requirements)
 
 * Run Terraform:
 
