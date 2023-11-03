@@ -39,5 +39,12 @@ variable "data_volume_size" {
   type        = number
 }
 
+variable "ghes_admin_password" {
+  description = "The password for the GitHub Enterprise Server admin user"
+  type        = string
+}
 
-
+variable "ssh_private_key" {
+  description = "The path to the SSH private key to use for the EC2 instance"
+  type        = string
+}
