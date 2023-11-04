@@ -28,24 +28,6 @@ resource "aws_instance" "ghes_ec2" {
     Owner = var.owner
   }
 
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "ghe-config core.admin-password ${var.ghes_admin_password}",
-  #     "ghe-config core.github-hostname ghes.dupoiron.com",
-  #     # "ghe-ssl-acme -e",
-  #     "ghe-config-apply",
-  #   ]
-
-  #   connection {
-  #     type        = "ssh"
-  #     user        = "admin"
-  #     private_key = file("~/.ssh/id_rsa")
-  #     host        = self.public_ip
-  #     port = 122
-  #   }
-    
-  # }
-
 }
 
 resource "aws_volume_attachment" "ghes_ebs_attachment" {
