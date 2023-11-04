@@ -15,7 +15,7 @@ data "aws_ami" "ghes_ami" {
 resource "aws_instance" "ghes_ec2" {
   ami           = data.aws_ami.ghes_ami.id
   instance_type = var.aws_instance_type
-  key_name      = var.key_pair_name
+  key_name      = aws_key_pair.ghes_kp.key_name
   security_groups = [aws_security_group.ghes_sg.name]
   availability_zone = var.aws_availability_zone
   
