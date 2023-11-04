@@ -15,7 +15,7 @@ data "aws_ami" "ghes_ami" {
 resource "aws_instance" "ghes_ec2" {
   ami           = data.aws_ami.ghes_ami.id
   instance_type = var.aws_instance_type
-  key_name      = var.key_pair_name
+  key_name      = aws_key_pair.ghes_kp.key_name
   security_groups = [aws_security_group.ghes_sg.name]
   availability_zone = var.aws_availability_zone
   
@@ -28,22 +28,23 @@ resource "aws_instance" "ghes_ec2" {
     Owner = var.owner
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "ghe-config core.admin-password ${var.ghes_admin_password}",
-      "ghe-config core.github-hostname ghes.dupoiron.com",
-      "ghe-ssl-acme -e",
-      "ghe-config-apply",
-    ]
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "ghe-config core.admin-password ${var.ghes_admin_password}",
+  #     "ghe-config core.github-hostname ghes.dupoiron.com",
+  #     # "ghe-ssl-acme -e",
+  #     "ghe-config-apply",
+  #   ]
 
-    connection {
-      type        = "ssh"
-      user        = "admin"
-      private_key = var.ssh_private_key
-      host        = self.public_ip
-    }
+  #   connection {
+  #     type        = "ssh"
+  #     user        = "admin"
+  #     private_key = file("~/.ssh/id_rsa")
+  #     host        = self.public_ip
+  #     port = 122
+  #   }
     
-  }
+  # }
 
 }
 
