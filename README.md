@@ -2,6 +2,42 @@
 
 Spin up a GitHub Enterprise Server (GHES) instance in AWS using Terraform.
 
+## Architecture
+
+```mermaid
+flowchart LR
+vpc(ghes_vpc)
+subnet(ghes_subnet)
+internet_gateway(ghes_igw)
+route_table(ghes_route_table)
+route_table_association(ghes_route_table_association)
+security_group(ghes_sg)
+instance(ghes_ec2)
+volume_data(ghes_data_ebs)
+volume_root(ghes_root_ebs)
+
+subgraph "network.tf"
+internet_gateway-->vpc
+route_table-->vpc
+route_table-->internet_gateway
+route_table_association-->subnet
+route_table_association-->route_table
+subnet-->vpc
+end
+
+subgraph "security-groups.tf"
+security_group-->vpc
+end
+
+subgraph "ec2-instances.tf"
+instance-->subnet
+instance-->security_group
+volume_root-->instance
+volume_data-->instance
+end
+
+```
+
 ## Usage
 
 * Create a `terraform.tfvars` file with the following variables:

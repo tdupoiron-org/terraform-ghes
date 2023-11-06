@@ -1,6 +1,7 @@
 # This file creates a security group that allows all inbound and outbound traffic.
 resource "aws_security_group" "ghes_sg" {
-  name        = "${var.owner}-ghes-sg"
+  name        = "${var.owner}-ghes-sg-tf"
+  vpc_id = aws_vpc.ghes_vpc.id
 
   ingress {
     from_port   = 22
@@ -48,6 +49,6 @@ resource "aws_security_group" "ghes_sg" {
 
   tags = {
     Owner = "${var.owner}"
-    Name  = "${var.owner}-ghes-sg"
+    Name  = "${var.owner}-ghes-sg-tf"
   }
 }
