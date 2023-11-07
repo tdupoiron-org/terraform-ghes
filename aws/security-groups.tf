@@ -48,7 +48,7 @@ resource "aws_security_group" "ghes_sg" {
   }
 
   tags = {
-    Owner = "${var.owner}"
+    Owner = var.owner
     Name  = "${var.owner}-ghes-sg-tf"
   }
 }
