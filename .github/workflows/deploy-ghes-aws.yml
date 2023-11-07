@@ -22,7 +22,7 @@ jobs:
         with:
           terraform_version: 1.0.0
 
-      - name: Terraform init
+      - name: Terraform apply
         working-directory: aws
         run: | 
           ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
