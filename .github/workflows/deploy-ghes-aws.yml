@@ -26,7 +26,7 @@ jobs:
       - name: Terraform init
         run: |
           cd aws
-          terraform init
+          terraform init -backend-config=backend.conf
 
       - name: Terraform plan
         run: terraform plan

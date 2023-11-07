@@ -1,13 +1,3 @@
-variable "s3_bucket_name" {
-  description = "The name of the S3 bucket to use for the backend"
-  type        = string
-}
-
-variable "s3_key_prefix" {
-  description = "The prefix to use for the S3 key"
-  type        = string
-}
-
 variable "owner" {
   description = "The owner of the infrastructure"
   type        = string

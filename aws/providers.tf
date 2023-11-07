@@ -5,12 +5,7 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  backend "s3" {
-    bucket = var.s3_bucket_name
-    key    = var.s3_key_prefix
-    region = var.aws_region
-  }
+  backend "s3" {}
 }
 
 provider "aws" {
