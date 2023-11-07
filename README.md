@@ -63,8 +63,8 @@ Technical prerequisites can be found [here](https://docs.github.com/en/enterpris
 cd aws
 export AWS_ACCESS_KEY_ID="anaccesskey"
 export AWS_SECRET_ACCESS_KEY="asecretkey"
-ssh-keygen -t rsa
-terraform init
+ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
+terraform init -backend-config=backend.conf
 terraform plan
 terraform apply -auto-approve
 ```

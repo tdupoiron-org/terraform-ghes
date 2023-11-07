@@ -25,7 +25,7 @@ jobs:
       - name: Terraform init
         working-directory: aws
         run: | 
-          ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -N "" -y
+          ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
           terraform init -backend-config=backend.conf
           terraform plan
           terraform apply -auto-approve
