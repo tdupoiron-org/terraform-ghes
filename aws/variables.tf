@@ -19,11 +19,6 @@ variable "aws_instance_type" {
   default     = "m5.4xlarge"
 }
 
-# variable "key_pair_name" {
-#   description = "The name of the key pair to use for the EC2 instance"
-#   type        = string
-# }
-
 variable "ghes_version" {
   description = "The version of GitHub Enterprise Server to deploy"
   type        = string

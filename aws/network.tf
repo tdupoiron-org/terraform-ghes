@@ -2,6 +2,7 @@ resource "aws_vpc" "ghes_vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
     Name = "${var.owner}-ghes-vpc-tf"
+    Owner = var.owner
   }
 }
 
@@ -11,6 +12,7 @@ resource "aws_subnet" "ghes_subnet" {
   availability_zone = var.aws_availability_zone
   tags = {
     Name = "${var.owner}-ghes-subnet-tf"
+    Owner = var.owner
   }
 }
 
@@ -19,6 +21,7 @@ resource "aws_internet_gateway" "ghes_igw" {
   
   tags = {
     Name = "${var.owner}-ghes-igw-tf"
+    Owner = var.owner
   }
 }
 
@@ -32,6 +35,7 @@ resource "aws_route_table" "ghes_rtb" {
 
   tags = {
     Name = "${var.owner}-ghes-rtb-tf"
+    Owner = var.owner
   }
 }
 

@@ -44,6 +44,7 @@ resource "aws_ebs_volume" "ghes_ebs_data" {
 
   tags = {
     Name = "${var.owner}-ghes-ebs-data-tf"
+    Owner = var.owner
   }
 }
 
