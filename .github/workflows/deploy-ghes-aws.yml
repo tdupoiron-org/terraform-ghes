@@ -24,7 +24,9 @@ jobs:
           terraform_version: 1.0.0
 
       - name: Terraform init
-        run: terraform init
+        run: |
+          cd aws
+          terraform init
 
       - name: Terraform plan
         run: terraform plan
