@@ -25,5 +25,6 @@ jobs:
       - name: Terraform apply
         working-directory: aws
         run: | 
+          ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
           terraform init -backend-config=backend.conf
           terraform destroy -auto-approve
