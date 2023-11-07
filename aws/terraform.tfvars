@@ -1,3 +1,6 @@
+s3_bucket_name = "tdupoiron-s3"
+s3_key_prefix = "terraform"
+
 owner = "tdupoiron"
 aws_region = "eu-west-3"
 aws_availability_zone = "eu-west-3a"
