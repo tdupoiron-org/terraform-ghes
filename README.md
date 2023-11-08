@@ -60,10 +60,11 @@ Technical prerequisites can be found [here](https://docs.github.com/en/enterpris
 * Run Terraform:
 
 ```hcl
-cd aws
 export AWS_ACCESS_KEY_ID="anaccesskey"
 export AWS_SECRET_ACCESS_KEY="asecretkey"
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
+
+cd aws
 terraform init -backend-config=backend.conf
 terraform plan
 terraform apply -auto-approve
@@ -75,4 +76,16 @@ terraform apply -auto-approve
 ghes_homepage = "https://35.180.134.22"
 ghes_setup_endpoint = "https://35.180.134.22:8443/setup"
 ghes_ssh_command = "ssh -i ~/.ssh/mykeypair.pem -p 122 admin@35.180.134.22"
+```
+
+* Destroy the infrastructure:
+
+```hcl
+export AWS_ACCESS_KEY_ID="anaccesskey"
+export AWS_SECRET_ACCESS_KEY="asecretkey"
+ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
+
+cd aws
+terraform init -backend-config=backend.conf
+terraform destroy -auto-approve
 ```
