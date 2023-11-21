@@ -2,6 +2,14 @@ name: Deploy Terraform AWS
 
 on:
   workflow_dispatch:
+    inputs:
+      ghes_version:
+        description: 'GitHub Enterprise Server version'
+        required: true
+        default: '3.11.0.rc1'
+
+env:
+  TF_VAR_ghes_version: ${{ github.event.inputs.ghes_version }}
 
 jobs:
   deploy:
