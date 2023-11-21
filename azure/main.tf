@@ -5,31 +5,31 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_resource_group_template_deployment" "ghes" {
 
-  name = "ghes"
+  name                = "ghes"
   resource_group_name = azurerm_resource_group.rg.name
-  deployment_mode = "Incremental"
-  template_content = file("ghes_azure_template.json")
+  deployment_mode     = "Incremental"
+  template_content    = file("ghes_azure_template.json")
   parameters_content = jsonencode({
-    "accountPrefix": {
-      "value": "tdupoiron"
+    "accountPrefix" : {
+      "value" : "tdupoiron"
     },
-    "adminUsername": {
-      "value": "tdupoiron"
+    "adminUsername" : {
+      "value" : "tdupoiron"
     },
-    "vmSize": {
-      "value": "Standard_E8s_v3"
+    "vmSize" : {
+      "value" : "Standard_E8s_v3"
     },
-    "storageDiskSizeGB": {
-      "value": "512"
+    "storageDiskSizeGB" : {
+      "value" : "512"
     },
-    "authenticationType": {
-      "value": "password"
+    "authenticationType" : {
+      "value" : "password"
     },
-    "adminPasswordOrKey": {
-      "value": "tdup_Admin1234"
+    "adminPasswordOrKey" : {
+      "value" : "tdup_Admin1234"
     },
-    "location": {
-      "value": "northeurope"
+    "location" : {
+      "value" : "northeurope"
     }
   })
 

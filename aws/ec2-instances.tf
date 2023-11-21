@@ -17,11 +17,11 @@ resource "aws_instance" "ghes_ec2" {
   instance_type = var.aws_instance_type
   key_name      = aws_key_pair.ghes_kp.key_name
   # security_groups = [aws_security_group.ghes_sg.name]
-  availability_zone = var.aws_availability_zone
+  availability_zone           = var.aws_availability_zone
   associate_public_ip_address = true
-  subnet_id = aws_subnet.ghes_subnet.id
-  vpc_security_group_ids = [aws_security_group.ghes_sg.id]
-  
+  subnet_id                   = aws_subnet.ghes_subnet.id
+  vpc_security_group_ids      = [aws_security_group.ghes_sg.id]
+
   root_block_device {
     volume_size = var.root_volume_size
     tags = {
@@ -43,7 +43,7 @@ resource "aws_ebs_volume" "ghes_ebs_data" {
   size              = var.data_volume_size
 
   tags = {
-    Name = "${var.owner}-ghes-ebs-data-tf"
+    Name  = "${var.owner}-ghes-ebs-data-tf"
     Owner = var.owner
   }
 }
