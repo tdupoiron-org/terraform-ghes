@@ -48,29 +48,16 @@ jobs:
           terraform plan
           terraform apply -auto-approve
           terraform output -json > terraform_output.json
-          echo "terraform_output=$(cat terraform_output.json)" >> $GITHUB_OUTPUT
-
-      - name: Terraform output
-        working-directory: aws
-        run: | 
-          echo ${{ steps.deploy.outputs.terraform_output }}
-
-      - name: Terraform output 2
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            console.log(JSON.stringify(process.env.TERRAFORM_OUTPUT))
-        env:
-          TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
-      - name: Write step summary
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await core.summary
-              .addHeading('GitHub Enterprise Server')
-              .addRaw(`Version: ${process.env.TERRAFORM_OUTPUT}`)
-              .write()
-        env:
-          TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
+          echo $(cat terraform_output.json)
+          
+      # - name: Write step summary
+      #   uses: actions/github-script@v4
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       await core.summary
+      #         .addHeading('GitHub Enterprise Server')
+      #         .addRaw(`Version: ${process.env.TERRAFORM_OUTPUT}`)
+      #         .write()
+      #   env:
+      #     TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
