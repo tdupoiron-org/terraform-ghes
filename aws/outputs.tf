@@ -7,7 +7,7 @@ output "ghes_ec2_public_dns" {
 }
 
 output "ghes_dns_record_fqdn" {
-  value = "${aws_route53_record.ghes_dnsrecord.name}.${aws_route53_zone.ghes_dnszone.name}"
+  value = "${aws_route53_record.ghes_dnsrecord.name}.${aws_route53_zone.ghes_dnszone_public.name}"
 }
 
 output "ghes_setup_endpoint" {
