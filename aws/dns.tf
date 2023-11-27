@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "ghes_dnszone_public" {
-  name = "${var.owner}.${var.aws_region}.githubenterprise.net"
+  name = "${var.owner}.githubcsa.net"
   tags = {
     Owner = var.owner
   }
