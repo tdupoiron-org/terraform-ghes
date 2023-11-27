@@ -51,10 +51,13 @@ jobs:
         working-directory: aws
         run: | 
           ghes_public_ip=$(terraform output ghes_public_ip)
-          echo "::set-output name=ghes_public_ip::$ghes_public_ip"
+          echo "ghes_public_ip=$ghes_public_ip" >> $GITHUB_OUTPUT 
+
           ghes_homepage=$(terraform output ghes_homepage)
-          echo "::set-output name=ghes_homepage::$ghes_homepage"
+          echo "ghes_homepage=$ghes_homepage" >> $GITHUB_OUTPUT 
+
           ghes_setup_endpoint=$(terraform output ghes_setup_endpoint)
-          echo "::set-output name=ghes_setup_endpoint::$ghes_setup_endpoint"
+          echo "ghes_setup_endpoint=$ghes_setup_endpoint" >> $GITHUB_OUTPUT 
+
           ghes_ssh_command=$(terraform output ghes_ssh_command)
-          echo "::set-output name=ghes_ssh_command::$ghes_ssh_command"
+          echo "ghes_ssh_command=$ghes_ssh_command" >> $GITHUB_OUTPUT 
