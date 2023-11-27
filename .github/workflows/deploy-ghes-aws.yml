@@ -59,8 +59,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(${steps.deploy.outputs.terraform_output})
-
+            console.log(JSON.stringify(process.env.TERRAFORM_OUTPUT))
+        env:
+          TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
       - name: Write step summary
         uses: actions/github-script@v4
         with:
@@ -68,5 +69,7 @@ jobs:
           script: |
             await core.summary
               .addHeading('GitHub Enterprise Server')
-              .addText(`Version: ${steps.outputs.outputs.terraform_output}`)
+              .addText(`Version: ${process.env.TERRAFORM_OUTPUT}`)
               .write()
+        env:
+          TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
