@@ -41,23 +41,27 @@ jobs:
           path: ~/.ssh/id_rsa
 
       - name: Terraform apply
+        id: deploy
         working-directory: aws
         run: | 
           terraform init -backend-config=backend.conf
           terraform plan
           terraform apply -auto-approve
+          echo "terraform_output=$(terraform output)" >> $GITHUB_OUTPUT
 
       - name: Terraform output
+        id: outputs
         working-directory: aws
         run: | 
-          ghes_public_ip=$(terraform output ghes_public_ip)
-          echo "ghes_public_ip=$ghes_public_ip" >> $GITHUB_OUTPUT 
+          echo ${{ steps.deploy.outputs.terraform_output }}
 
-          ghes_homepage=$(terraform output ghes_homepage)
-          echo "ghes_homepage=$ghes_homepage" >> $GITHUB_OUTPUT 
-
-          ghes_setup_endpoint=$(terraform output ghes_setup_endpoint)
-          echo "ghes_setup_endpoint=$ghes_setup_endpoint" >> $GITHUB_OUTPUT 
-
-          ghes_ssh_command=$(terraform output ghes_ssh_command)
-          echo "ghes_ssh_command=$ghes_ssh_command" >> $GITHUB_OUTPUT 
+      # # write github step summary
+      # - name: Write step summary
+      #   uses: actions/github-script@v4
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       await core.summary
+      #         .addHeading('GitHub Enterprise Server')
+      #         .addText(`Version: ${steps.deploy.outputs.ghes_version}`)
+      #         .write()
