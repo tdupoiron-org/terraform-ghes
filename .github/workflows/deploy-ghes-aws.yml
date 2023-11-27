@@ -59,7 +59,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(steps.deploy.outputs.terraform_output)
+            console.log(${steps.deploy.outputs.terraform_output})
 
       - name: Write step summary
         uses: actions/github-script@v4
