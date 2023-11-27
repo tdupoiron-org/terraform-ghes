@@ -11,6 +11,11 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "terraform" # See documentation for possible values
-    directory: "/" # Location of package manifests
+    directory: "/aws" # Location of package manifests
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "terraform" # See documentation for possible values
+    directory: "/azure" # Location of package manifests
     schedule:
       interval: "weekly"
