@@ -47,7 +47,7 @@ jobs:
           terraform init -backend-config=backend.conf
           terraform plan
           terraform apply -auto-approve
-          echo "terraform_output=$(terraform output)" >> $GITHUB_OUTPUT
+          echo "terraform_output=$(terraform output -json)" >> $GITHUB_OUTPUT
 
       - name: Terraform output
         working-directory: aws
@@ -69,7 +69,7 @@ jobs:
           script: |
             await core.summary
               .addHeading('GitHub Enterprise Server')
-              .addText(`Version: ${process.env.TERRAFORM_OUTPUT}`)
+              .addRaw(`Version: ${process.env.TERRAFORM_OUTPUT}`)
               .write()
         env:
           TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
