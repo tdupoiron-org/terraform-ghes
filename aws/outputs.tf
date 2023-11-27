@@ -7,15 +7,15 @@ output "ghes_ec2_public_dns" {
 }
 
 output "ghes_setup_endpoint" {
-  value = "https://${aws_instance.ghes_ec2.public_ip}:8443/setup"
+  value = "https://${aws_instance.ghes_ec2.public_dns}:8443/setup"
 }
 
 output "ghes_homepage" {
-  value = "https://${aws_instance.ghes_ec2.public_ip}"
+  value = "https://${aws_instance.ghes_ec2.public_dns}"
 }
 
 output "ghes_ssh_command" {
-  value = "ssh -i ~/.ssh/id_rsa -p 122 admin@${aws_instance.ghes_ec2.public_ip}"
+  value = "ssh -i ~/.ssh/id_rsa -p 122 admin@${aws_instance.ghes_ec2.public_dns}"
 }
 
 output "ghes_admin_password" {
