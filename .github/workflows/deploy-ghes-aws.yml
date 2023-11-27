@@ -30,10 +30,31 @@ jobs:
         with:
           terraform_version: 1.0.0
 
+      - name: Generate SSH key
+        run: |
+          ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
+
+      - name: Upload private key
+        uses: actions/upload-artifact@v2
+        with:
+          name: private-key
+          path: ~/.ssh/id_rsa
+
       - name: Terraform apply
         working-directory: aws
         run: | 
-          ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
           terraform init -backend-config=backend.conf
           terraform plan
           terraform apply -auto-approve
+
+      - name: Terraform output
+        working-directory: aws
+        run: | 
+          ghes_public_ip=$(terraform output ghes_public_ip)
+          echo "::set-output name=ghes_public_ip::$ghes_public_ip"
+          ghes_homepage=$(terraform output ghes_homepage)
+          echo "::set-output name=ghes_homepage::$ghes_homepage"
+          ghes_setup_endpoint=$(terraform output ghes_setup_endpoint)
+          echo "::set-output name=ghes_setup_endpoint::$ghes_setup_endpoint"
+          ghes_ssh_command=$(terraform output ghes_ssh_command)
+          echo "::set-output name=ghes_ssh_command::$ghes_ssh_command"
