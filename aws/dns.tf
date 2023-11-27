@@ -2,6 +2,10 @@
 resource "aws_route53_zone" "ghes_dnszone" {
   name = "${var.owner}.${var.aws_region}.githubenterprise.net"
 
+  vpc {
+    vpc_id = aws_vpc.ghes_vpc.id
+  }
+
   tags = {
     Owner = var.owner
   }
@@ -12,5 +16,5 @@ resource "aws_route53_record" "ghes_dnsrecord" {
   name    = "ghes"
   type    = "A"
   ttl     = 300
-  records = [aws_instance.ghes_ec2.public_ip] 
+  records = [aws_instance.ghes_ec2.public_ip]
 }
