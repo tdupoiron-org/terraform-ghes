@@ -50,18 +50,23 @@ jobs:
           echo "terraform_output=$(terraform output)" >> $GITHUB_OUTPUT
 
       - name: Terraform output
-        id: outputs
         working-directory: aws
         run: | 
           echo ${{ steps.deploy.outputs.terraform_output }}
 
-      # # write github step summary
-      # - name: Write step summary
-      #   uses: actions/github-script@v4
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       await core.summary
-      #         .addHeading('GitHub Enterprise Server')
-      #         .addText(`Version: ${steps.deploy.outputs.ghes_version}`)
-      #         .write()
+      - name: Terraform output 2
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            console.log(steps.deploy.outputs.terraform_output)
+
+      - name: Write step summary
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await core.summary
+              .addHeading('GitHub Enterprise Server')
+              .addText(`Version: ${steps.outputs.outputs.terraform_output}`)
+              .write()
