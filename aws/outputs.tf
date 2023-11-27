@@ -1,5 +1,13 @@
-output "ghes_public_ip" {
+output "ghes_ec2_public_ip" {
   value = aws_instance.ghes_ec2.public_ip
+}
+
+output "ghes_ec2_public_dns" {
+  value = aws_instance.ghes_ec2.public_dns
+}
+
+output "ghes_hostname" {
+  value = aws_route53_record.ghes_dnsrecord.name
 }
 
 output "ghes_setup_endpoint" {
