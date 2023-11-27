@@ -47,7 +47,7 @@ jobs:
           terraform init -backend-config=backend.conf
           terraform plan
           terraform apply -auto-approve
-          echo "terraform_output=$(terraform output -json)" >> $GITHUB_OUTPUT
+          echo "terraform_output=\"$(terraform output -json)\"" >> $GITHUB_OUTPUT
 
       - name: Terraform output
         working-directory: aws
