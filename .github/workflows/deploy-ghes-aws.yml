@@ -8,13 +8,13 @@ on:
         required: true
         default: '3.11.0.rc1'
 
-env:
-  TF_VAR_ghes_version: ${{ github.event.inputs.ghes_version }}
-
 jobs:
   terraform:
     runs-on: ubuntu-latest
   
+    env:
+      TF_VAR_ghes_version: ${{ github.event.inputs.ghes_version }}    
+
     outputs:
       public_ip: ${{ steps.deploy.outputs.public_ip }}
 
@@ -53,6 +53,7 @@ jobs:
           terraform apply -auto-approve
           terraform output -json > terraform_output.json
           echo "::set-output name=public_ip::$(cat terraform_output.json | jq -r '.public_ip.value')"
+          echo cat terraform_output.json | jq -r '.public_ip.value'
 
   ovh:
     runs-on: ubuntu-latest
