@@ -6,6 +6,10 @@ process.env.OVH_APP_KEY = core.getInput('ovh_app_key');
 process.env.OVH_APP_SECRET = core.getInput('ovh_app_secret');
 process.env.OVH_CONSUMER_KEY = core.getInput('ovh_consumer_key');
 
+console.log('OVH_APP_KEY', process.env.OVH_APP_KEY);
+console.log('OVH_APP_SECRET', process.env.OVH_APP_SECRET);
+console.log('OVH_CONSUMER_KEY', process.env.OVH_CONSUMER_KEY);
+
 const action = core.getInput('action');
 
 // Check if any of the required inputs are missing

@@ -1,8 +1,13 @@
-var ovh = require('ovh')({
-  appKey: process.env.OVH_APP_KEY,
-  appSecret: process.env.OVH_APP_SECRET,
-  consumerKey: process.env.OVH_CONSUMER_KEY
-});
+var ovh = require('ovh');
+
+function authenticate() {
+  ovh = require('ovh')({
+    appKey: process.env.OVH_APP_KEY,
+    appSecret: process.env.OVH_APP_SECRET,
+    consumerKey: process.env.OVH_CONSUMER_KEY
+  });
+  return ovh;
+}
 
 // GET all domains
 function getDomains() {
@@ -71,6 +76,7 @@ function createRecord(domain, record) {
 
 // Export functions
 module.exports = {
+  authenticate,
   getDomains,
   getRecords,
   getRecord,

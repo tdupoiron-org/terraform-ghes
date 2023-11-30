@@ -1,7 +1,10 @@
 const core = require('@actions/core');
-const { getDomains, getRecords, getRecord, updateRecord, createRecord } = require('./ovh-utils');
+const { authenticate, getDomains, getRecords, getRecord, updateRecord, createRecord } = require('./ovh-utils');
 
 async function update(domain, subdomain, ip) {
+
+  authenticate();
+
   try {
     const domains = await getDomains();
     const foundDomain = domains.find((d) => d === domain);
