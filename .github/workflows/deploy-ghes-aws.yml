@@ -53,7 +53,7 @@ jobs:
           terraform apply -auto-approve
           terraform output -json > terraform_output.json
           echo "::set-output name=public_ip::$(cat terraform_output.json | jq -r '.public_ip.value')"
-          echo cat terraform_output.json | jq -r '.public_ip.value'
+          cat terraform_output.json | jq -r '.public_ip.value'
 
   ovh:
     runs-on: ubuntu-latest
