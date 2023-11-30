@@ -57,7 +57,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Update OVH DNS
-        uses: ./ovh@main
+        uses: ./ovh
         with:
           ovh_app_key: ${{ secrets.OVH_APP_KEY }}
           ovh_app_secret: ${{ secrets.OVH_APP_SECRET }}
