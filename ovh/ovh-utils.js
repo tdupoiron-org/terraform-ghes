@@ -23,9 +23,9 @@ function getDomains() {
 }
 
 // Get all records for a domain
-function getRecords(domain) {
+function getRecords(domain, type, subdomain) {
   return new Promise((resolve, reject) => {
-    ovh.request('GET', `/domain/zone/${domain}/record`, (err, records) => {
+    ovh.request('GET', `/domain/zone/${domain}/record?fieldType=${type}&subDomain=${subdomain}`, (err, records) => {
       if (err) {
         reject(err);
       } else {
@@ -74,6 +74,19 @@ function createRecord(domain, record) {
   });
 }
 
+// Refresh a domain
+function refreshDomain(domain) {
+  return new Promise((resolve, reject) => {
+    ovh.request('POST', `/domain/zone/${domain}/refresh`, (err, domain) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(domain);
+      }
+    });
+  });
+}
+
 // Export functions
 module.exports = {
   authenticate,
@@ -81,5 +94,6 @@ module.exports = {
   getRecords,
   getRecord,
   updateRecord,
-  createRecord
+  createRecord,
+  refreshDomain
 };

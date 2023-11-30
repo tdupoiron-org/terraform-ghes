@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { authenticate, getDomains, getRecords, getRecord, updateRecord, createRecord } = require('./ovh-utils');
+const { authenticate, getDomains, getRecords, getRecord, updateRecord, createRecord, refreshDomain } = require('./ovh-utils');
 
 async function update(domain, subdomain, ip) {
 
@@ -13,7 +13,7 @@ async function update(domain, subdomain, ip) {
     }
     core.info(`Found domain ${foundDomain}`);
   
-    const records = await getRecords(foundDomain);
+    const records = await getRecords(foundDomain, 'A', subdomain);
     var foundRecordId = undefined;
     var foundRecord = undefined;
     // For each record get the record and check if it matches the subdomain and is an A record
@@ -45,6 +45,10 @@ async function update(domain, subdomain, ip) {
       await updateRecord(foundDomain, foundRecordId, foundRecord);
       core.info(`Updated record for subdomain ${subdomain} with IP ${ip}`);
     }
+
+    // Refresh config
+    await refreshDomain(foundDomain);
+    core.info(`Refreshed domain ${foundDomain}`);
 
   } catch (error) {
     core.error(error.message);
