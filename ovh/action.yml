@@ -1,0 +1,31 @@
+name: My Action
+description: A GitHub Action to run index.js
+
+inputs:
+  OVH_APP_KEY:
+    description: 'OVH Application Key'
+    required: true
+  OVH_APP_SECRET:
+    description: 'OVH Application Secret'
+    required: true
+  OVH_CONSUMER_KEY:
+    description: 'OVH Consumer Key'
+    required: true
+
+  action:
+    description: 'Action to run'
+    required: true
+
+  domain:
+    description: 'Domain to use'
+    required: false
+  subdomain:
+    description: 'Subdomain to use'
+    required: false
+  ip:
+    description: 'IP to use'
+    required: false
+
+runs:
+  using: 'node12'
+  main: 'index.js'
