@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const { getDomains, getRecords, getRecord, updateRecord, createRecord } = require('./ovh-utils');
 
-async function updateGHESServerIP(domain, subdomain, ip) {
+async function update(domain, subdomain, ip) {
   try {
     const domains = await getDomains();
     const foundDomain = domains.find((d) => d === domain);
@@ -49,5 +49,5 @@ async function updateGHESServerIP(domain, subdomain, ip) {
 }
 
 module.exports = {
-  updateGHESServerIP
+  update
 };

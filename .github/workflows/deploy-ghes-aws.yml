@@ -12,7 +12,7 @@ env:
   TF_VAR_ghes_version: ${{ github.event.inputs.ghes_version }}
 
 jobs:
-  deploy:
+  terraform:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -48,16 +48,21 @@ jobs:
           terraform plan
           terraform apply -auto-approve
           terraform output -json > terraform_output.json
-          echo $(cat terraform_output.json)
-          
-      # - name: Write step summary
-      #   uses: actions/github-script@v4
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       await core.summary
-      #         .addHeading('GitHub Enterprise Server')
-      #         .addRaw(`Version: ${process.env.TERRAFORM_OUTPUT}`)
-      #         .write()
-      #   env:
-      #     TERRAFORM_OUTPUT: ${{ steps.deploy.outputs.terraform_output }}
+          echo "::set-output name=public_ip::$(cat terraform_output.json | jq -r '.public_ip.value')"
+
+  ovh:
+    runs-on: ubuntu-latest
+    needs: terraform
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Update OVH DNS
+        uses: ./ovh@main
+        with:
+          ovh_app_key: ${{ secrets.OVH_APP_KEY }}
+          ovh_app_secret: ${{ secrets.OVH_APP_SECRET }}
+          ovh_consumer_key: ${{ secrets.OVH_CONSUMER_KEY }}
+          action: 'update'
+          domain: 'dupoiron.com'
+          subdomain: 'ghes'
+          ip: ${{ needs.terraform.outputs.public_ip }}
