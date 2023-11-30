@@ -32445,9 +32445,12 @@ exports["default"] = _default;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const { getDomains, getRecords, getRecord, updateRecord, createRecord } = __nccwpck_require__(8914);
+const { authenticate, getDomains, getRecords, getRecord, updateRecord, createRecord } = __nccwpck_require__(8914);
 
 async function update(domain, subdomain, ip) {
+
+  authenticate();
+
   try {
     const domains = await getDomains();
     const foundDomain = domains.find((d) => d === domain);
@@ -32503,11 +32506,16 @@ module.exports = {
 /***/ 8914:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var ovh = __nccwpck_require__(5822)({
-  appKey: process.env.OVH_APP_KEY,
-  appSecret: process.env.OVH_APP_SECRET,
-  consumerKey: process.env.OVH_CONSUMER_KEY
-});
+var ovh = __nccwpck_require__(5822);
+
+function authenticate() {
+  ovh = __nccwpck_require__(5822)({
+    appKey: process.env.OVH_APP_KEY,
+    appSecret: process.env.OVH_APP_SECRET,
+    consumerKey: process.env.OVH_CONSUMER_KEY
+  });
+  return ovh;
+}
 
 // GET all domains
 function getDomains() {
@@ -32576,6 +32584,7 @@ function createRecord(domain, record) {
 
 // Export functions
 module.exports = {
+  authenticate,
   getDomains,
   getRecords,
   getRecord,
@@ -34484,6 +34493,10 @@ const ovhController = __nccwpck_require__(1912);
 process.env.OVH_APP_KEY = core.getInput('ovh_app_key');
 process.env.OVH_APP_SECRET = core.getInput('ovh_app_secret');
 process.env.OVH_CONSUMER_KEY = core.getInput('ovh_consumer_key');
+
+console.log('OVH_APP_KEY', process.env.OVH_APP_KEY);
+console.log('OVH_APP_SECRET', process.env.OVH_APP_SECRET);
+console.log('OVH_CONSUMER_KEY', process.env.OVH_CONSUMER_KEY);
 
 const action = core.getInput('action');
 
