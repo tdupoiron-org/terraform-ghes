@@ -8,6 +8,10 @@ on:
         required: true
         default: '3.11.0.rc1'
 
+env:
+  domain: dupoiron.com
+  subdomain: ghes
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -52,7 +56,7 @@ jobs:
           terraform plan
           terraform apply -auto-approve
           terraform output -json > terraform_output.json
-          echo "::set-output name=public_ip::$(cat terraform_output.json | jq -r '.ghes_ec2_public_ip.value')"
+          echo "public_ip=$(cat terraform_output.json | jq -r '.ghes_ec2_public_ip.value')" >> "$GITHUB_OUTPUT"
 
   ovh:
     runs-on: ubuntu-latest
@@ -67,6 +71,17 @@ jobs:
           ovh_app_secret: ${{ secrets.OVH_APP_SECRET }}
           ovh_consumer_key: ${{ secrets.OVH_CONSUMER_KEY }}
           action: 'update'
-          domain: 'dupoiron.com'
-          subdomain: 'ghes'
+          domain: ${{ env.domain }}
+          subdomain: ${{ env.subdomain }}
           ip: ${{ needs.terraform.outputs.public_ip }}
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: [ovh]
+    steps:
+      - name: Summary
+        run: |
+          echo "GHES version: ${{ github.event.inputs.ghes_version }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Public IP: ${{ needs.terraform.outputs.public_ip }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Home page: https://${{ env.subdomain }}.${{ env.domain }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Management console: https://${{ needs.terraform.outputs.public_ip }}:8443/setup" >> "$GITHUB_STEP_SUMMARY"
