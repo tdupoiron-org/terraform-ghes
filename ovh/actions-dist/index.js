@@ -32445,7 +32445,7 @@ exports["default"] = _default;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186);
-const { authenticate, getDomains, getRecords, getRecord, updateRecord, createRecord } = __nccwpck_require__(8914);
+const { authenticate, getDomains, getRecords, getRecord, updateRecord, createRecord, refreshDomain } = __nccwpck_require__(8914);
 
 async function update(domain, subdomain, ip) {
 
@@ -32459,7 +32459,7 @@ async function update(domain, subdomain, ip) {
     }
     core.info(`Found domain ${foundDomain}`);
   
-    const records = await getRecords(foundDomain);
+    const records = await getRecords(foundDomain, 'A', subdomain);
     var foundRecordId = undefined;
     var foundRecord = undefined;
     // For each record get the record and check if it matches the subdomain and is an A record
@@ -32491,6 +32491,10 @@ async function update(domain, subdomain, ip) {
       await updateRecord(foundDomain, foundRecordId, foundRecord);
       core.info(`Updated record for subdomain ${subdomain} with IP ${ip}`);
     }
+
+    // Refresh config
+    await refreshDomain(foundDomain);
+    core.info(`Refreshed domain ${foundDomain}`);
 
   } catch (error) {
     core.error(error.message);
@@ -32531,9 +32535,9 @@ function getDomains() {
 }
 
 // Get all records for a domain
-function getRecords(domain) {
+function getRecords(domain, type, subdomain) {
   return new Promise((resolve, reject) => {
-    ovh.request('GET', `/domain/zone/${domain}/record`, (err, records) => {
+    ovh.request('GET', `/domain/zone/${domain}/record?fieldType=${type}&subDomain=${subdomain}`, (err, records) => {
       if (err) {
         reject(err);
       } else {
@@ -32582,6 +32586,19 @@ function createRecord(domain, record) {
   });
 }
 
+// Refresh a domain
+function refreshDomain(domain) {
+  return new Promise((resolve, reject) => {
+    ovh.request('POST', `/domain/zone/${domain}/refresh`, (err, domain) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(domain);
+      }
+    });
+  });
+}
+
 // Export functions
 module.exports = {
   authenticate,
@@ -32589,7 +32606,8 @@ module.exports = {
   getRecords,
   getRecord,
   updateRecord,
-  createRecord
+  createRecord,
+  refreshDomain
 };
 
 /***/ }),
