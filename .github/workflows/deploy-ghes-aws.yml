@@ -53,8 +53,8 @@ jobs:
         working-directory: aws
         run: | 
           terraform init -backend-config=backend.conf
-          terraform plan -var "ghes_version=${{ env.TF_VAR_ghes_version }}"
-          terraform apply -auto-approve
+          terraform plan -var "ghes_version=${{ env.TF_VAR_ghes_version }}" -out=tfplan
+          terraform apply -auto-approve tfplan
           terraform output -json > terraform_output.json
           echo "public_ip=$(cat terraform_output.json | jq -r '.ghes_ec2_public_ip.value')" >> "$GITHUB_OUTPUT"
 
