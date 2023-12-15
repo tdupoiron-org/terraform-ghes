@@ -89,3 +89,25 @@ cd aws
 terraform init -backend-config=backend.conf
 terraform destroy -auto-approve
 ```
+
+## Connect to the instance
+
+* Download the private key from GitHub Actions artifacts
+
+or
+
+* Add your public key to the instance using the management console
+
+* Connect to the instance using the ssh command from the output
+
+```shell
+ssh -p 122 admin@ghes.domain.com -i $HOME/.ssh/public_key
+```
+
+## Configure Let's Encrypt certificate
+
+* Enable ACME protocol on the instance and issue a certificate
+
+```shell
+ghe-ssl-acme -e
+```
