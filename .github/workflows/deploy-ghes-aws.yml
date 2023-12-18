@@ -43,7 +43,7 @@ jobs:
           ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 
       - name: Upload private key
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: private-key
           path: ~/.ssh/id_rsa
