@@ -6,6 +6,15 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+env:
+  domain: dupoiron.com
+  subdomain: ghes
+  OVH_APPLICATION_KEY: ${{ secrets.OVH_APPLICATION_KEY }}
+  OVH_APPLICATION_SECRET: ${{ secrets.OVH_APPLICATION_SECRET }}
+  OVH_CONSUMER_KEY: ${{ secrets.OVH_CONSUMER_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,12 +22,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-3
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: eu-west-3
           
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
