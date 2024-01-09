@@ -8,12 +8,14 @@ resource "aws_vpc" "ghes_vpc" {
   }
 }
 
-resource "aws_subnet" "ghes_subnet" {
+resource "aws_subnet" "ghes_subnets" {
+  count             = length(var.aws_availability_zones)
   vpc_id            = aws_vpc.ghes_vpc.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = var.aws_availability_zone
+  cidr_block        = "10.0.${count.index}.0/24"
+  availability_zone = var.aws_availability_zones[count.index]
+
   tags = {
-    Name  = "${var.owner}-ghes-subnet-tf"
+    Name  = "${var.owner}-ghes-subnet-tf-${var.aws_availability_zones[count.index]}"
     Owner = var.owner
   }
 }
@@ -41,7 +43,8 @@ resource "aws_route_table" "ghes_rtb" {
   }
 }
 
-resource "aws_route_table_association" "ghes_route_table_association" {
-  subnet_id      = aws_subnet.ghes_subnet.id
+resource "aws_route_table_association" "ghes_route_table_associations" {
+  count          = length(var.aws_availability_zones)
+  subnet_id      = aws_subnet.ghes_subnets[count.index].id
   route_table_id = aws_route_table.ghes_rtb.id
 }

@@ -66,8 +66,7 @@ ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 
 cd aws
 terraform init -backend-config=backend.conf
-terraform plan
-terraform apply -auto-approve
+terraform plan;terraform apply -auto-approve
 ```
 
 * Read public ip and useful information from the output:

@@ -58,26 +58,27 @@ jobs:
           terraform output -json > terraform_output.json
           echo "public_ip=$(cat terraform_output.json | jq -r '.ghes_ec2_public_ip.value')" >> "$GITHUB_OUTPUT"
 
-  ovh:
-    runs-on: ubuntu-latest
-    needs: terraform
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Update OVH DNS
-        uses: ./ovh
-        with:
-          ovh_app_key: ${{ secrets.OVH_APP_KEY }}
-          ovh_app_secret: ${{ secrets.OVH_APP_SECRET }}
-          ovh_consumer_key: ${{ secrets.OVH_CONSUMER_KEY }}
-          action: 'update'
-          domain: ${{ env.domain }}
-          subdomain: ${{ env.subdomain }}
-          ip: ${{ needs.terraform.outputs.public_ip }}
+  # ovh:
+  #   runs-on: ubuntu-latest
+  #   needs: terraform
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     - name: Update OVH DNS
+  #       uses: ./ovh
+  #       with:
+  #         ovh_app_key: ${{ secrets.OVH_APP_KEY }}
+  #         ovh_app_secret: ${{ secrets.OVH_APP_SECRET }}
+  #         ovh_consumer_key: ${{ secrets.OVH_CONSUMER_KEY }}
+  #         action: 'update'
+  #         domain: ${{ env.domain }}
+  #         subdomain: ${{ env.subdomain }}
+  #         ip: ${{ needs.terraform.outputs.public_ip }}
 
   summary:
     runs-on: ubuntu-latest
-    needs: [terraform, ovh]
+    # needs: [terraform, ovh]
+    needs: terraform
     steps:
       - name: Summary
         run: |

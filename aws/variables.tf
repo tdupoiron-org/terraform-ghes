@@ -8,9 +8,9 @@ variable "aws_region" {
   type        = string
 }
 
-variable "aws_availability_zone" {
-  description = "The availability zone to deploy resources in"
-  type        = string
+variable "aws_availability_zones" {
+  description = "The availability zones to deploy resources in"
+  type        = list(string)
 }
 
 variable "aws_instance_type" {
@@ -32,6 +32,16 @@ variable "root_volume_size" {
 variable "data_volume_size" {
   description = "The size of the data volume in GB"
   type        = number
+}
+
+variable "ovh_domain_name" {
+  description = "The domain name to use for the AWS resources"
+  type        = string
+}
+
+variable "ghes_domain_name" {
+  description = "The domain name to use for the GitHub Enterprise Server instance"
+  type        = string
 }
 
 variable "ghes_admin_password" {

@@ -16,10 +16,9 @@ resource "aws_instance" "ghes_ec2" {
   ami           = data.aws_ami.ghes_ami.id
   instance_type = var.aws_instance_type
   key_name      = aws_key_pair.ghes_kp.key_name
-  # security_groups = [aws_security_group.ghes_sg.name]
-  availability_zone           = var.aws_availability_zone
+  availability_zone           = var.aws_availability_zones[0]
   associate_public_ip_address = true
-  subnet_id                   = aws_subnet.ghes_subnet.id
+  subnet_id                   = aws_subnet.ghes_subnets[0].id
   vpc_security_group_ids      = [aws_security_group.ghes_sg.id]
 
   root_block_device {
@@ -39,7 +38,7 @@ resource "aws_instance" "ghes_ec2" {
 }
 
 resource "aws_ebs_volume" "ghes_ebs_data" {
-  availability_zone = var.aws_availability_zone
+  availability_zone = var.aws_availability_zones[0]
   size              = var.data_volume_size
 
   tags = {
