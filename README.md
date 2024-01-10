@@ -22,16 +22,12 @@ acm(ghes_acm)
 ovh_dns(ovh_dns)
 
 subgraph "network.tf"
-route_table-->internet_gateway
-route_table_association-->subnet
-route_table_association-->route_table
-vpc-->internet_gateway
-vpc-->route_table
 vpc-->subnet
-end
-
-subgraph "security-groups.tf"
-security_group-->vpc
+vpc-->route_table
+vpc-->internet_gateway
+vpc-->security_group
+route_table-->internet_gateway
+route_table-->subnet
 end
 
 subgraph "ec2-instances.tf"
@@ -42,12 +38,14 @@ instance-->volume_data
 end
 
 subgraph "load-balancer.tf"
+alb-->vpc
 alb-->subnet
 alb-->security_group
 alb-->alb_listener
+
 alb_listener-->acm
 alb_listener-->alb_target_group
-alb_target_group-->vpc
+
 alb_target_group-->instance
 end
 
