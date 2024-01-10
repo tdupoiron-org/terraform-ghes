@@ -48,8 +48,8 @@ alb_listener-->alb_target_group
 alb_target_group-->instance
 end
 
-ovh_dns-->alb
 ovh_dns-->acm
+ovh_dns-->alb
 
 ```
 
