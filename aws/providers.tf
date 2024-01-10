@@ -16,5 +16,5 @@ provider "aws" {
 }
 
 provider "ovh" {
-  endpoint           = "ovh-eu"
+  endpoint = "ovh-eu"
 }

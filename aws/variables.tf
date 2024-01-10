@@ -34,12 +34,12 @@ variable "data_volume_size" {
   type        = number
 }
 
-variable "ovh_domain_name" {
+variable "ovh_domain" {
   description = "The domain name to use for the AWS resources"
   type        = string
 }
 
-variable "ghes_domain_name" {
+variable "ghes_subdomain" {
   description = "The domain name to use for the GitHub Enterprise Server instance"
   type        = string
 }

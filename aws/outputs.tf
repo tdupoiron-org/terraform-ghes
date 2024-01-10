@@ -21,3 +21,7 @@ output "ghes_ssh_command" {
 output "ghes_admin_password" {
   value = var.ghes_admin_password
 }
+
+output "ghes_lb_dns" {
+  value = aws_lb.ghes_lb.dns_name
+}

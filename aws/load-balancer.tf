@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "ghes_lb_cert" {
-  domain_name       = var.ghes_domain_name
+  domain_name       = "${var.ghes_subdomain}.${var.ovh_domain}"
   validation_method = "DNS"
 
   tags = {
@@ -8,7 +8,7 @@ resource "aws_acm_certificate" "ghes_lb_cert" {
 }
 
 resource "ovh_domain_zone_record" "ghes_lb_cert_validation_record" {
-  zone      = var.ovh_domain_name
+  zone      = var.ovh_domain
   subdomain = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_name
   fieldtype = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_type
   target    = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_value
@@ -51,12 +51,12 @@ resource "aws_lb_target_group" "ghes_lb_target_groups" {
 }
 
 resource "aws_lb_listener" "ghes_lb_listeners" {
-  count              = length(var.ports)
-  load_balancer_arn  = aws_lb.ghes_lb.arn
-  port               = var.ports[count.index]
-  protocol           = "HTTPS"
-  ssl_policy         = "ELBSecurityPolicy-2016-08"
-  certificate_arn    = aws_acm_certificate.ghes_lb_cert.arn
+  count             = length(var.ports)
+  load_balancer_arn = aws_lb.ghes_lb.arn
+  port              = var.ports[count.index]
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.ghes_lb_cert.arn
 
   default_action {
     target_group_arn = aws_lb_target_group.ghes_lb_target_groups[count.index].arn
@@ -72,8 +72,8 @@ resource "aws_lb_target_group_attachment" "ghes_lb_tg_attachments" {
 }
 
 resource "ovh_domain_zone_record" "ghes_domain_record" {
-  zone      = var.ovh_domain_name
-  subdomain = "ghes"
+  zone      = var.ovh_domain
+  subdomain = var.ghes_subdomain
   fieldtype = "CNAME"
-  target    = aws_lb.ghes_lb.dns_name
+  target    = "${aws_lb.ghes_lb.dns_name}."
 }
