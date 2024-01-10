@@ -15,14 +15,19 @@ security_group(ghes_sg)
 instance(ghes_ec2)
 volume_data(ghes_data_ebs)
 volume_root(ghes_root_ebs)
+alb(ghes_lb)
+alb_listener(ghes_lb_listener)
+alb_target_group(ghes_lb_target_group)
+acm(ghes_acm)
+ovh_dns(ovh_dns)
 
 subgraph "network.tf"
-internet_gateway-->vpc
-route_table-->vpc
 route_table-->internet_gateway
 route_table_association-->subnet
 route_table_association-->route_table
-subnet-->vpc
+vpc-->internet_gateway
+vpc-->route_table
+vpc-->subnet
 end
 
 subgraph "security-groups.tf"
@@ -32,9 +37,22 @@ end
 subgraph "ec2-instances.tf"
 instance-->subnet
 instance-->security_group
-volume_root-->instance
-volume_data-->instance
+instance-->volume_root
+instance-->volume_data
 end
+
+subgraph "load-balancer.tf"
+alb-->subnet
+alb-->security_group
+alb-->alb_listener
+alb_listener-->acm
+alb_listener-->alb_target_group
+alb_target_group-->vpc
+alb_target_group-->instance
+end
+
+ovh_dns-->alb
+ovh_dns-->acm
 
 ```
 
@@ -43,14 +61,16 @@ end
 * Create a `terraform.tfvars` file with the following variables:
 
 ```hcl
-owner = "myorg"
-aws_region = "eu-west-3"
-aws_availability_zone = "eu-west-3a"
-aws_instance_type = "m5.4xlarge"
-key_pair_name = "mykeypair"
-ghes_version = "3.8.11"
-root_volume_size = 200
-data_volume_size = 150
+owner                 = "tdupoiron"
+aws_region            = "eu-west-3"
+aws_availability_zones = ["eu-west-3a", "eu-west-3b", "eu-west-3c"]
+aws_instance_type     = "m5.8xlarge"
+ghes_version          = "3.10.3"
+root_volume_size      = 200
+data_volume_size      = 200
+
+ovh_domain_name       = "dupoiron.com"
+ghes_domain_name      = "ghes.dupoiron.com"
 ```
 
 Available GHES versions can be found [here](https://enterprise.github.com/releases)
@@ -62,6 +82,10 @@ Technical prerequisites can be found [here](https://docs.github.com/en/enterpris
 ```hcl
 export AWS_ACCESS_KEY_ID="anaccesskey"
 export AWS_SECRET_ACCESS_KEY="asecretkey"
+
+export OVH_CONSUMER_KEY="a consumer key"
+export OVH_APPLICATION_KEY="an application key"
+export OVH_APPLICATION_SECRET="an application secret"
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
 
 cd aws

@@ -9,7 +9,8 @@
 			"extensions": [
 				"GitHub.copilot",
 				"hashicorp.terraform",
-				"github.vscode-github-actions"
+				"github.vscode-github-actions",
+				"vstirbu.vscode-mermaid-preview"
 			]
 		}
 	},
