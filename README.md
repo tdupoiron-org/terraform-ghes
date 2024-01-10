@@ -10,7 +10,6 @@ vpc(ghes_vpc)
 subnet(ghes_subnet)
 internet_gateway(ghes_igw)
 route_table(ghes_route_table)
-route_table_association(ghes_route_table_association)
 security_group(ghes_sg)
 instance(ghes_ec2)
 volume_data(ghes_data_ebs)
@@ -21,7 +20,7 @@ alb_target_group(ghes_lb_target_group)
 acm(ghes_acm)
 ovh_dns(ovh_dns)
 
-subgraph "network.tf"
+subgraph "AWS vpc"
 vpc-->subnet
 vpc-->route_table
 vpc-->internet_gateway
@@ -30,14 +29,14 @@ route_table-->internet_gateway
 route_table-->subnet
 end
 
-subgraph "ec2-instances.tf"
+subgraph "ec2-instances"
 instance-->subnet
 instance-->security_group
 instance-->volume_root
 instance-->volume_data
 end
 
-subgraph "load-balancer.tf"
+subgraph "load-balancer"
 alb-->vpc
 alb-->subnet
 alb-->security_group
