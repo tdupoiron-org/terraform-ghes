@@ -12,6 +12,7 @@ resource "ovh_domain_zone_record" "ghes_lb_cert_validation_record" {
   subdomain = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_name
   fieldtype = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_type
   target    = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_value
+  ttl       = 3600
 }
 
 resource "aws_acm_certificate_validation" "ghes_lb_cert_validation" {
