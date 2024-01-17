@@ -25,28 +25,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: eu-west-3
           
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.0.0
-
-      # - name: Generate SSH key
-      #   run: |
-      #     ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
-
-      # - name: Upload private key
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: private-key
-      #     path: ~/.ssh/id_rsa
 
       - name: Terraform apply
         id: deploy
@@ -64,26 +45,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  # ovh:
-  #   runs-on: ubuntu-latest
-  #   needs: terraform
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Update OVH DNS
-  #       uses: ./ovh
-  #       with:
-  #         ovh_app_key: ${{ secrets.OVH_APP_KEY }}
-  #         ovh_app_secret: ${{ secrets.OVH_APP_SECRET }}
-  #         ovh_consumer_key: ${{ secrets.OVH_CONSUMER_KEY }}
-  #         action: 'update'
-  #         domain: ${{ env.domain }}
-  #         subdomain: ${{ env.subdomain }}
-  #         ip: ${{ needs.terraform.outputs.public_ip }}
-
   summary:
     runs-on: ubuntu-latest
-    # needs: [terraform, ovh]
     needs: terraform
     steps:
       - name: Summary
