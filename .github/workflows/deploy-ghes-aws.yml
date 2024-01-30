@@ -7,6 +7,10 @@ on:
         description: 'GitHub Enterprise Server version'
         required: true
         default: '3.11.2'
+      aws_instance_type:
+        description: 'AWS instance type'
+        required: true
+        default: 'm5.8xlarge'
 
 env:
   domain: dupoiron.com
@@ -17,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
   
     env:
-      TF_VAR_ghes_version: ${{ github.event.inputs.ghes_version }}    
+      TF_VAR_ghes_version: ${{ github.event.inputs.ghes_version }}
+      TF_VAR_aws_instance_type: ${{ github.event.inputs.aws_instance_type }} 
 
     outputs:
       public_ip: ${{ steps.deploy.outputs.public_ip }}
@@ -34,7 +39,7 @@ jobs:
         working-directory: aws
         run: | 
           terraform init -backend-config=backend.conf
-          terraform plan -var "ghes_version=${{ env.TF_VAR_ghes_version }}" -out=tfplan
+          terraform plan -var "ghes_version=${{ env.TF_VAR_ghes_version }}" -var "aws_instance_type=${{ env.TF_VAR_aws_instance_type }}" -out=tfplan
           terraform apply -auto-approve tfplan
           terraform output -json > terraform_output.json
           echo "public_ip=$(cat terraform_output.json | jq -r '.ghes_ec2_public_ip.value')" >> "$GITHUB_OUTPUT"
