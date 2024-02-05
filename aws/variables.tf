@@ -43,8 +43,3 @@ variable "ghes_subdomain" {
   description = "The domain name to use for the GitHub Enterprise Server instance"
   type        = string
 }
-
-variable "ghes_admin_password" {
-  description = "The password for the GitHub Enterprise Server admin user"
-  type        = string
-}

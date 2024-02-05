@@ -8,4 +8,3 @@ data_volume_size       = 200
 
 ovh_domain          = "dupoiron.com"
 ghes_subdomain      = "ghes"
-ghes_admin_password = "AdminGithub1234"

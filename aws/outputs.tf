@@ -18,10 +18,6 @@ output "ghes_ssh_command" {
   value = "ssh -i ~/.ssh/id_rsa -p 122 admin@${aws_instance.ghes_ec2.public_dns}"
 }
 
-output "ghes_admin_password" {
-  value = var.ghes_admin_password
-}
-
 output "ghes_lb_dns" {
   value = aws_lb.ghes_lb.dns_name
 }
