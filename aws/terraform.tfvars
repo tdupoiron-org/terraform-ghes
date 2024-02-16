@@ -6,5 +6,5 @@ ghes_version           = "3.10.3"
 root_volume_size       = 200
 data_volume_size       = 200
 
-ovh_domain          = "dupoiron.com"
-ghes_subdomain      = "ghes"
+ovh_domain     = "dupoiron.com"
+ghes_subdomain = "ghes"
