@@ -1,8 +1,8 @@
 resource "aws_acm_certificate" "ghes_lb_cert" {
-  domain_name       = "*.${var.ghes_subdomain}.${var.ovh_domain}"
+  domain_name = "*.${var.ghes_subdomain}.${var.ovh_domain}"
   #subject_alternative_names = [for subdomain in var.subdomains : "${subdomain}.${var.ghes_subdomain}.${var.ovh_domain}"]
   subject_alternative_names = ["${var.ghes_subdomain}.${var.ovh_domain}"]
-  validation_method = "DNS"
+  validation_method         = "DNS"
 
   tags = {
     Owner = var.owner
