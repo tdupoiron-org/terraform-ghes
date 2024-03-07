@@ -1,18 +1,12 @@
 resource "aws_acm_certificate" "ghes_lb_cert" {
-  domain_name       = "${var.ghes_subdomain}.${var.ovh_domain}"
+  domain_name       = "*.${var.ghes_subdomain}.${var.ovh_domain}"
+  #subject_alternative_names = [for subdomain in var.subdomains : "${subdomain}.${var.ghes_subdomain}.${var.ovh_domain}"]
+  subject_alternative_names = ["${var.ghes_subdomain}.${var.ovh_domain}"]
   validation_method = "DNS"
 
   tags = {
     Owner = var.owner
   }
-}
-
-resource "ovh_domain_zone_record" "ghes_lb_cert_validation_record" {
-  zone      = var.ovh_domain
-  subdomain = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_name
-  fieldtype = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_type
-  target    = tolist(aws_acm_certificate.ghes_lb_cert.domain_validation_options)[0].resource_record_value
-  ttl       = 3600
 }
 
 resource "aws_acm_certificate_validation" "ghes_lb_cert_validation" {
@@ -70,11 +64,4 @@ resource "aws_lb_target_group_attachment" "ghes_lb_tg_attachments" {
   target_group_arn = aws_lb_target_group.ghes_lb_target_groups[count.index].arn
   target_id        = aws_instance.ghes_ec2.id
   port             = var.ports[count.index]
-}
-
-resource "ovh_domain_zone_record" "ghes_domain_record" {
-  zone      = var.ovh_domain
-  subdomain = var.ghes_subdomain
-  fieldtype = "CNAME"
-  target    = "${aws_lb.ghes_lb.dns_name}."
 }
