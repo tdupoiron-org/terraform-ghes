@@ -58,5 +58,6 @@ jobs:
         run: |
           echo "GHES version: ${{ github.event.inputs.ghes_version }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Public IP: ${{ needs.terraform.outputs.public_ip }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "SSH access: ssh admin@${{ needs.terraform.outputs.public_ip }} -p122" >> "$GITHUB_STEP_SUMMARY"
           echo "Home page: https://${{ env.subdomain }}.${{ env.domain }}" >> "$GITHUB_STEP_SUMMARY"
           echo "Management console: https://${{ needs.terraform.outputs.public_ip }}:8443/setup" >> "$GITHUB_STEP_SUMMARY"
