@@ -6,3 +6,9 @@
 #     Owner = var.owner
 #   }
 # }
+
+# search for an existing aws_key_pair
+
+data "aws_key_pair" "tdupoiron-key-pair" {
+  key_name = "${var.owner}-keypair"
+}

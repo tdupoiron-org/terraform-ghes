@@ -15,7 +15,7 @@ data "aws_ami" "ghes_ami" {
 resource "aws_instance" "ghes_ec2" {
   ami           = data.aws_ami.ghes_ami.id
   instance_type = var.aws_instance_type
-  # key_name      = aws_key_pair.ghes_kp.key_name
+  key_name      = data.aws_key_pair.tdupoiron-key-pair.key_name
   availability_zone           = var.aws_availability_zones[0]
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.ghes_subnets[0].id
@@ -83,7 +83,7 @@ data "aws_ami" "amazon_linux_ami" {
 resource "aws_instance" "runner_ec2" {
   ami           = data.aws_ami.amazon_linux_ami.id
   instance_type = var.aws_instance_type
-  # key_name      = aws_key_pair.ghes_kp.key_name
+  key_name      = data.aws_key_pair.tdupoiron-key-pair.key_name
   availability_zone           = var.aws_availability_zones[0]
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.ghes_subnets[0].id
