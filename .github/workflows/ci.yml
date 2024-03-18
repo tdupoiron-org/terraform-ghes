@@ -4,6 +4,7 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  merge_group:
 
 jobs:
   build:
@@ -11,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout repository (PR)
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
       uses: actions/checkout@v4
       with:
         ref: ${{ github.event.pull_request.head.ref }}

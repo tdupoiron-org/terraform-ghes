@@ -1,5 +1,7 @@
 # terraform-ghes
 
+## Welcome to the automation world
+
 Spin up a GitHub Enterprise Server (GHES) instance in AWS using Terraform.
 
 ## Architecture
