@@ -85,7 +85,7 @@ resource "aws_instance" "runner_ec2" {
   instance_type = var.aws_instance_type
   # key_name      = aws_key_pair.ghes_kp.key_name
   availability_zone           = var.aws_availability_zones[0]
-  associate_public_ip_address = false
+  associate_public_ip_address = true
   subnet_id                   = aws_subnet.ghes_subnets[0].id
   vpc_security_group_ids      = [aws_security_group.ghes_sg.id]
 
